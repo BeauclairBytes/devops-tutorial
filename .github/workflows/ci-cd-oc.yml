@@ -24,6 +24,14 @@ jobs:
       - name: Set up kubectl
         uses: Azure/setup-kubectl@v4
 
+      - name: Install oc
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: latest
+
+      - name: Test oc
+        run: oc version --client
+
       - name: Log in to OpenShift
         uses: redhat-actions/oc-login@v1
         with:
