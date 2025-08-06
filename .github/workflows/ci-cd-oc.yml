@@ -1,0 +1,38 @@
+name: CI to public-k8s
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY: ghcr.io/${{ github.repository }}
+    steps:
+      # ---------- CI ----------
+      - uses: actions/checkout@v4
+
+    #   - name: Run (dummy) tests
+    #     run: echo "✓ unit tests"
+
+    #   - name: Build & push image
+    #     uses: docker/build-push-action@v5
+    #     with:
+    #       context: .
+    #       push: true
+    #       tags: ${{ env.REGISTRY }}:${{ github.sha }}
+
+      # ---------- CD ----------
+      - name: Set up kubectl
+        uses: Azure/setup-kubectl@v4
+
+      - name: Log in to OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token:      ${{ secrets.OPENSHIFT_TOKEN }}
+          # optional:
+          # insecure_skip_tls_verify: true
+
+      - name: Apply manifests
+        run: |
+          oc apply -f k8s/
+          oc rollout status deploy/my-app
