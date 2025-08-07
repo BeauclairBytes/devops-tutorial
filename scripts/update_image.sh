@@ -1,5 +1,5 @@
-docker build -f docker/Dockerfile -t custom-nginx:latest .
+docker build -f docker/Dockerfile -t httpd-server:latest .
 
-docker tag custom-nginx:latest beauclairbytes/custom-nginx:latest
+docker tag httpd-server:latest beauclairbytes/httpd-server:latest
 
-docker push beauclairbytes/custom-nginx:latest
+docker push beauclairbytes/httpd-server:latest
