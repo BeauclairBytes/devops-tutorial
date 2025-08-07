@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: httpd-server
-          image: docker.io/beauclairbytes/httpd-server:latest
+          image: docker.io/beauclairbytes/httpd-server:${IMAGE_TAG}
           ports:
             - containerPort: 8080

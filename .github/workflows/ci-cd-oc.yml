@@ -15,6 +15,7 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -24,7 +25,10 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: beauclairbytes/httpd-server:latest
+          tags: |
+            beauclairbytes/httpd-server:latest
+            beauclairbytes/httpd-server:${{ github.sha }}
+
       # ---------- CD ----------
       - name: Set up kubectl
         uses: Azure/setup-kubectl@v4
@@ -43,8 +47,14 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token:      ${{ secrets.OPENSHIFT_TOKEN }}
 
+      - name: Set IMAGE_TAG env variable
+        run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+
+      - name: Update Deployment YAML with Image Tag
+        run: |
+          sed -i "s|beauclairbytes/httpd-server:.*|beauclairbytes/httpd-server:${IMAGE_TAG}|g" k8s/deployment.yaml
+
       - name: Apply manifests
         run: |
           oc apply -f k8s/
-      - name: Force rollout
-        run: oc rollout restart deployment/httpd-server-deployment
+          oc rollout status deployment/httpd-server-deployment
