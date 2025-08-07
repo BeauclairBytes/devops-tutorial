@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: httpd-server:latest-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: httpd-server:latest
   template:
     metadata:
       labels:
-        app: nginx
+        app: httpd-server:latest
     spec:
       containers:
-        - name: nginx
-          image: docker.io/beauclairbytes/custom-nginx
+        - name: httpd-server:latest
+          image: docker.io/beauclairbytes/httpd-server:latest
           ports:
             - containerPort: 80
