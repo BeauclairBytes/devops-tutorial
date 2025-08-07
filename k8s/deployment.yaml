@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: httpd-server:latest-deployment
+  name: httpd-server-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: httpd-server:latest
+      app: httpd-server
   template:
     metadata:
       labels:
-        app: httpd-server:latest
+        app: httpd-server
     spec:
       containers:
-        - name: httpd-server:latest
+        - name: httpd-server
           image: docker.io/beauclairbytes/httpd-server:latest
           ports:
             - containerPort: 80
