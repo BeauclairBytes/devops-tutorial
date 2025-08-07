@@ -21,7 +21,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./docker
           push: true
           tags: beauclairbytes/httpd-server:latest
       # ---------- CD ----------
