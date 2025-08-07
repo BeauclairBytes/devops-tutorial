@@ -26,24 +26,24 @@ jobs:
           push: true
           tags: beauclairbytes/httpd-server:latest
       # ---------- CD ----------
-      # - name: Set up kubectl
-      #   uses: Azure/setup-kubectl@v4
+      - name: Set up kubectl
+        uses: Azure/setup-kubectl@v4
 
-      # - name: Install oc
-      #   uses: redhat-actions/openshift-tools-installer@v1
-      #   with:
-      #     oc: latest
+      - name: Install oc
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: latest
 
-      # - name: Test oc
-      #   run: oc version --client
+      - name: Test oc
+        run: oc version --client
 
-      # - name: Log in to OpenShift
-      #   uses: redhat-actions/oc-login@v1
-      #   with:
-      #     openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-      #     openshift_token:      ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Log in to OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token:      ${{ secrets.OPENSHIFT_TOKEN }}
 
-      # - name: Apply manifests
-      #   run: |
-      #     oc apply -f k8s/
+      - name: Apply manifests
+        run: |
+          oc apply -f k8s/
 #oc rollout status deploy/my-app
