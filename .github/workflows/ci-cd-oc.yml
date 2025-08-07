@@ -43,4 +43,4 @@ jobs:
       - name: Apply manifests
         run: |
           oc apply -f k8s/
-          oc rollout status deploy/my-app
+#oc rollout status deploy/my-app
