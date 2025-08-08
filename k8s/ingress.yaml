@@ -1,18 +1,12 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: route.openshift.io/v1
+kind: Route
 metadata:
-  name: httpd-server-ingress
-  annotations:
-    kubernetes.io/ingress.class: openshift-default
+  name: httpd-route
 spec:
-  rules:
-    - host: httpd-server.apps.cluster.example.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: httpd-service
-                port:
-                  number: 8080
+  to:
+    kind: Service
+    name: httpd-service
+  port:
+    targetPort: 8080
+  tls:
+  wildcardPolicy: None
